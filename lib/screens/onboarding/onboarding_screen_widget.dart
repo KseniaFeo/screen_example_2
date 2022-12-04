@@ -98,49 +98,65 @@ class _OnboardingScreenWidgetState extends State<OnboardingScreenWidget> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: screenHeight / 5,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          child: Text(
-                            'Skip',
-                            style: _secondTextStyle,
+                  Visibility(
+                    visible: _currentIndex != 3,
+                    child: SizedBox(
+                      height: screenHeight / 5,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            child: Text(
+                              'Skip',
+                              style: _secondTextStyle,
+                            ),
+                            onTap: () {
+                              _pageController.previousPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.slowMiddle);
+                            },
                           ),
-                          onTap: () {
-                            _pageController.previousPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.slowMiddle);
-                          },
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            for (int index = 0;
-                                index < onboardings.length;
-                                index++)
-                              _RoundWidget(isSelected: index == _currentIndex),
-                          ],
-                        ),
-                        GestureDetector(
-                          child: Text('Next', style: _secondTextStyle),
-                          onTap: () {
-                            if (_currentIndex == 3) {
-                              _pageController.animateToPage(3,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.linear);
-                            }
-                            {
-                              _pageController.nextPage(
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.linear);
-                            }
-                          },
-                        )
-                      ],
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              for (int index = 0;
+                                  index < onboardings.length;
+                                  index++)
+                                _RoundWidget(
+                                    isSelected: index == _currentIndex),
+                            ],
+                          ),
+                          GestureDetector(
+                            child: Text('Next', style: _secondTextStyle),
+                            onTap: () {
+                              if (_currentIndex == 3) {
+                                _pageController.animateToPage(3,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.linear);
+                              }
+                              {
+                                _pageController.nextPage(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.linear);
+                                print(_currentIndex);
+                              }
+                            },
+                          )
+                        ],
+                      ),
                     ),
-                  )
+                  ),
+                  Visibility(
+                    visible: _currentIndex == 3,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _pageController.animateToPage(0,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.linear);
+                      },
+                      child: Text('Button'),
+                    ),
+                  ),
                 ],
               ),
             ),
